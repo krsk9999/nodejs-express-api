@@ -33,12 +33,7 @@ const crearPaciente = async (req, res) => {
   res.status(201).send({ status: "OK", data: pacienteCreado });
 };
 
-const actualizarPaciente = (req, res) => {
-  const pacienteActualizado = pacienteService.actualizarPaciente(
-    req.params.pacienteId
-  );
-  res.send(`Actualizando paciente ${req.params.pacienteId}`);
-
+const actualizarPaciente = async (req, res) => {
 
   const { body } = req;
   if (
@@ -51,15 +46,29 @@ const actualizarPaciente = (req, res) => {
     return;
   }
 
-  const newPaciente = {
-    identificacion : body.identificacion,
+  const updatedpaciente = {
+    identificacion: body.identificacion,
     nombre: body.nombre,
+    genero: body.genero,
+    fechaNacimiento: body.fechaNacimiento,
+    domicilio: body.domicilio,
+    provincia: body.provincia,
+    telefono: body.telefono,
+    celular: body.celular,
+    app: body.app,
+    anpp: body.anpp,
+    aqt: body.aqt,
+    alergiaMedicamento: body.alergiaMedicamento,
+    riesgoEmbarazo: body.riesgoEmbarazo,
+    vacunas: body.vacunas,
+    antecedentesPerinatales: body.antecedentesPerinatales,
     fechaRegistro: body.fechaRegistro,
     correo: body.correo,
     usuario: body.usuario
   }
-  const pacienteCreado = await pacienteService.crearPaciente(newPaciente);
-  res.status(201).send({ status: "OK", data: pacienteCreado });
+
+  const pacienteActualizado = await pacienteService.actualizarPaciente(updatedpaciente);  
+  res.status(201).send({ status: "OK", data: pacienteActualizado });
 };
 
 const eliminarPaciente = (req, res) => {

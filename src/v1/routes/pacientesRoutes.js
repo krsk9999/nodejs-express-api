@@ -10,7 +10,7 @@ router
 
     .post("/", pacienteController.crearPaciente)
 
-    .patch("/:pacienteId", pacienteController.actualizarPaciente)
+    .patch("/", pacienteController.actualizarPaciente)
 
     .delete("/:pacienteId", pacienteController.eliminarPaciente);
 

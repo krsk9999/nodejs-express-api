@@ -7,11 +7,11 @@ const obtenerPacientes = async () => {
 const obtenerPaciente = async (pacienteId) => {
   return await paciente.obtenerPaciente(pacienteId);
 };
-const crearPaciente = async (pacienteId) => {
-  return await paciente.crearPaciente(pacienteId);
+const crearPaciente = async (pacienteNuevo) => {
+  return await paciente.crearPaciente(pacienteNuevo);
 };
-const actualizarPaciente = () => {
-  return "";
+const actualizarPaciente = async (pacienteActualizado) => {
+  return await paciente.actualizarPaciente(pacienteActualizado);
 };
 const eliminarPaciente = () => {
   return "";
