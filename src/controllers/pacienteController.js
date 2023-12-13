@@ -38,6 +38,28 @@ const actualizarPaciente = (req, res) => {
     req.params.pacienteId
   );
   res.send(`Actualizando paciente ${req.params.pacienteId}`);
+
+
+  const { body } = req;
+  if (
+    !body.identificacion ||
+    !body.nombre ||
+    !body.fechaRegistro ||
+    !body.correo ||
+    !body.usuario
+  ) {
+    return;
+  }
+
+  const newPaciente = {
+    identificacion : body.identificacion,
+    nombre: body.nombre,
+    fechaRegistro: body.fechaRegistro,
+    correo: body.correo,
+    usuario: body.usuario
+  }
+  const pacienteCreado = await pacienteService.crearPaciente(newPaciente);
+  res.status(201).send({ status: "OK", data: pacienteCreado });
 };
 
 const eliminarPaciente = (req, res) => {
