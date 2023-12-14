@@ -13,8 +13,8 @@ const crearPaciente = async (pacienteNuevo) => {
 const actualizarPaciente = async (pacienteActualizado) => {
   return await paciente.actualizarPaciente(pacienteActualizado);
 };
-const eliminarPaciente = () => {
-  return "";
+const eliminarPaciente = async (pacienteId) => {
+  return await paciente.eliminarPaciente(pacienteId);
 };
 
 module.exports = {

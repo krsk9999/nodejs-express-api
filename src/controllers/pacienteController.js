@@ -13,23 +13,32 @@ const obtenerPaciente = async (req, res) => {
 const crearPaciente = async (req, res) => {
   const { body } = req;
   if (
-    !body.identificacion ||
-    !body.nombre ||
-    !body.fechaRegistro ||
-    !body.correo ||
-    !body.usuario
+    !body.Identificacion ||
+    !body.Nombre ||
+    !body.FechaRegistro ||
+    !body.Correo ||
+    !body.UsuarioModificacion
   ) {
     return;
   }
 
   const newPaciente = {
-    identificacion : body.identificacion,
-    nombre: body.nombre,
-    fechaRegistro: body.fechaRegistro,
-    correo: body.correo,
-    usuario: body.usuario
+    Identificacion : body.Identificacion,
+    Nombre: body.Nombre,
+    FechaRegistro: body.FechaRegistro,
+    Correo: body.Correo,
+    UsuarioModificacion: body.UsuarioModificacion
   }
   const pacienteCreado = await pacienteService.crearPaciente(newPaciente);
+
+  if (!pacienteCreado.paciente) {
+    res.status(400).send({
+      status: "FAILED",
+      data: { error: pacienteCreado.error },
+    });
+    return;
+  }
+
   res.status(201).send({ status: "OK", data: pacienteCreado });
 };
 
@@ -37,43 +46,43 @@ const actualizarPaciente = async (req, res) => {
 
   const { body } = req;
   if (
-    !body.identificacion ||
-    !body.nombre ||
-    !body.fechaRegistro ||
-    !body.correo ||
-    !body.usuario
+    !body.Identificacion ||
+    !body.Nombre ||
+    !body.FechaRegistro ||
+    !body.Correo ||
+    !body.UsuarioModificacion
   ) {
     return;
   }
 
   const updatedpaciente = {
-    identificacion: body.identificacion,
-    nombre: body.nombre,
-    genero: body.genero,
-    fechaNacimiento: body.fechaNacimiento,
-    domicilio: body.domicilio,
-    provincia: body.provincia,
-    telefono: body.telefono,
-    celular: body.celular,
-    app: body.app,
-    anpp: body.anpp,
-    aqt: body.aqt,
-    alergiaMedicamento: body.alergiaMedicamento,
-    riesgoEmbarazo: body.riesgoEmbarazo,
-    vacunas: body.vacunas,
-    antecedentesPerinatales: body.antecedentesPerinatales,
-    fechaRegistro: body.fechaRegistro,
-    correo: body.correo,
-    usuario: body.usuario
+    Identificacion: body.Identificacion,
+    Nombre: body.Nombre,
+    Genero: body.Genero,
+    FechaNacimiento: body.FechaNacimiento,
+    Domicilio: body.Domicilio,
+    Provincia: body.Provincia,
+    Telefono: body.Telefono,
+    Celular: body.Celular,
+    APP: body.APP,
+    ANPP: body.ANPP,
+    AQT: body.AQT,
+    AlergiaMedicamento: body.AlergiaMedicamento,
+    RiesgoEmbarazo: body.RiesgoEmbarazo,
+    Vacunas: body.Vacunas,
+    AntecedentesPerinatales: body.AntecedentesPerinatales,
+    FechaRegistro: body.FechaRegistro,
+    Correo: body.Correo,
+    UsuarioModificacion: body.UsuarioModificacion
   }
 
-  const pacienteActualizado = await pacienteService.actualizarPaciente(updatedpaciente);  
+  const pacienteActualizado = await pacienteService.actualizarPaciente(updatedpaciente);
   res.status(201).send({ status: "OK", data: pacienteActualizado });
 };
 
 const eliminarPaciente = (req, res) => {
-  pacienteService.eliminarPaciente(req.params.pacienteId);
-  res.send(`Eliminando paciente ${req.params.pacienteId}`);
+  const pacienteEliminado = pacienteService.eliminarPaciente(req.params.pacienteId);
+  res.status(201).send({ status: "OK", data: pacienteEliminado });
 };
 
 module.exports = {
