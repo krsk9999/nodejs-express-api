@@ -1,0 +1,18 @@
+version: "3.8"
+services:
+  database: 
+    image: 'krsk9999/exmeldb'
+    container_name: exmeldb
+    hostname: exmeldb
+    restart: always
+    ports:
+      - '1433:1433'
+    volumes:
+      - exmeldbdata:/var/opt/mssql/
+    environment:
+      - MSSQL_SA_PASSWORD=Sql2023#
+      - ACCEPT_EULA=Y
+  # backend:
+  # frontend: 
+volumes:
+  exmeldbdata:
