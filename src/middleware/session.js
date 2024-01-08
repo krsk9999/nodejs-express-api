@@ -1,7 +1,6 @@
-import { NextFunction, Request, Response } from "express"
 import { veryfyToken } from "../utils/token.handle"
 
-const checkJwt = (req: Request, res: Response, next: NextFunction) => {
+const checkJwt = (req, res, next) => {
     try {
         const jwtByUser = `${req.headers?.authorization}`
         const jwt = jwtByUser.split(' ').pop

@@ -1,9 +1,9 @@
-import { Router } from "express"
-import { loginCtrl, registerCtrl } from "../controllers/auth"
+const { Router } = require("express")
+const { loginCtrl, registerCtrl } = require("../controllers/auth")
 const router = Router()
 
 router
     .post('/register', registerCtrl)
     .post('/login', loginCtrl)
 
-export { router }
+module.exports = { router }

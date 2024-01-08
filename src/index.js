@@ -4,9 +4,8 @@ const app = express();
 require('dotenv').config();
 const PORT = process.env.PORT || 3000
 // const cache = apicache.middleware;
+const routes =  require("./routes/index")
 
-const v1PacientesRouter = require('./v1/routes/pacientesRoutes');
-const v1UsersRouter = require('./v1/routes/usersRoutes');
 // const { swaggerDocs: V1SwaggerDocs } = require("./v1/swagger");
 
 app.use(express.json());
@@ -14,14 +13,7 @@ app.use(express.json());
 app.get('/', (req, res) => {
     // res.redirect('/api/v1');
 });
-app.use('/api/v1/paciente', v1PacientesRouter);
-app.use('/api/v1/user', v1UsersRouter);
-
-
-
-
-
-
+app.use("/", routes)
 
 app.listen(PORT, () => {
     console.log(`🚀 Server listening on port ${PORT}`);

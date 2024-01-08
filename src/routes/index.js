@@ -1,5 +1,5 @@
-import {Router} from "express"
-import {readdirSync} from "fs"
+const {Router} = require("express")
+const {readdirSync} = require("fs")
 
 const PATH_ROUTER = `${__dirname}`
 
@@ -13,7 +13,7 @@ const cleanFileName = (filename) =>{
 readdirSync(PATH_ROUTER).filter((filename) =>{
     const cleanName = cleanFileName(filename)
     if (cleanName !== 'index' ) {
-        import(`./${cleanName}`).then((moduleRouter)=>{
+        require(`./${cleanName}`).then((moduleRouter)=>{
             console.log(`Se está cargando la ruta.....${cleanName}`)
             router.use(`/${cleanName}`, moduleRouter.router)
         })
@@ -22,4 +22,4 @@ readdirSync(PATH_ROUTER).filter((filename) =>{
     
 })
 
-export default router
+module.exports = router
