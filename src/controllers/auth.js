@@ -18,7 +18,7 @@ const loginCtrl = async (req, res) => {
     }
 }
 
-export {
+export default{
     registerCtrl,
     loginCtrl
 }

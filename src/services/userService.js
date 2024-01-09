@@ -1,7 +1,7 @@
 import users from '../database/user';
 
 const getAll = async () => {
-  return await users.getUsers();
+  return await users.getAllUsers();
 };
 
 const getById = async (userId) => {

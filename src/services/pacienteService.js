@@ -1,22 +1,22 @@
-import paciente from '../database/patient';
+import patients from '../database/patient';
 
 const obtenerPacientes = async () => {
-  return await paciente.obtenerTodosPacientes();
+  return await patients.obtenerTodosPacientes();
 };
 const obtenerPaciente = async (pacienteId) => {
-  return await paciente.obtenerPaciente(pacienteId);
+  return await patients.obtenerPaciente(pacienteId);
 };
 const crearPaciente = async (pacienteNuevo) => {
-  return await paciente.crearPaciente(pacienteNuevo);
+  return await patients.crearPaciente(pacienteNuevo);
 };
 const actualizarPaciente = async (pacienteActualizado) => {
-  return await paciente.actualizarPaciente(pacienteActualizado);
+  return await patients.actualizarPaciente(pacienteActualizado);
 };
 const eliminarPaciente = async (pacienteId) => {
-  return await paciente.eliminarPaciente(pacienteId);
+  return await patients.eliminarPaciente(pacienteId);
 };
 
-export {
+export default {
   obtenerPacientes,
   obtenerPaciente,
   crearPaciente,

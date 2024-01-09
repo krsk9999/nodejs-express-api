@@ -1,13 +1,4 @@
-const sql = require("mssql");
-const sqlConfig = {
-  user: process.env.DB_USERNAME,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_DATABASE,
-  server: process.env.DB_SERVER,
-  options: {
-    encrypt: false // for azure
-  }
-};
+const { connection, sql } = require("../database/connection");
 
 
 // obtenerTodosPacientes = async () => {
@@ -23,7 +14,7 @@ const sqlConfig = {
 
 const obtenerTodosPacientes = async () => {
   try {
-    let pool = await sql.connect(sqlConfig);
+    let pool = await connection();
 
     sql.valueHandler.set(sql.TYPES.Bit, (value) => value == 0 ? 'No' : 'Si')
 

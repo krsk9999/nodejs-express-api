@@ -1,12 +1,11 @@
-import { obtenerPacientes } from '../services/pacienteService'
+import patientsService  from '../services/pacienteService'
 
 
-const get = (req, res) =>{
-
+const get = async (req, res) =>{
 }
 
 const getAll = async (req, res) =>{
-    const pacientes = await obtenerPacientes()
+    const pacientes = await patientsService.obtenerPacientes()
     res.status(200).send(pacientes)
 }
 

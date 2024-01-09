@@ -1,5 +1,7 @@
 import { encrypt, verify } from "../utils/bcrypt.handle"
 import { generateToken } from "../utils/token.handle"
+import users from "../database/user"
+import auth from "../database/auth"
 
 const registerNewUser = async (user) => {
     const { USER, NAME, PASSWORD } = user
@@ -11,13 +13,13 @@ const registerNewUser = async (user) => {
 }
 
 const loginUser = async (user) => {
-    const { USER, PASSWORD } = user
-    const existingUser = await Usuario.findOne({ where: { USER: USER }, attributes: { exclude: ['CREATEDDATE', 'UsuarioModificacion', 'FechaModificacion'] } })
+    const { User, Password } = user
+    const existingUser = await users.getUserByUsername(User)
     if (!existingUser) {        
         return { user: user, message: "USER_NOT_FOUND", error: true }
     }
-    const passwordHash = existingUser.PASSWORD
-    const isCorrect = await verify(PASSWORD, passwordHash)
+    const passwordHash = existingUser.user.PASSWORD
+    const isCorrect = await verify(Password, passwordHash)
     if (!isCorrect) {
         return { user: user, message: "INVALID_PASSWORD", error: true }
     }

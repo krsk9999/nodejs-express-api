@@ -1,9 +1,9 @@
 import { Router } from "express"
-import { loginCtrl, registerCtrl } from "../controllers/auth"
+import authController from "../controllers/auth"
 const router = Router()
 
 router
-    .post('/register', registerCtrl)
-    .post('/login', loginCtrl)
+    .post('/register', authController.registerCtrl)
+    .post('/login', authController.loginCtrl)
 
 export { router }
