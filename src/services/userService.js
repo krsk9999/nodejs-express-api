@@ -1,15 +1,21 @@
-import { getUsers } from '../database/user';
+import users from '../database/user';
 
-const getAllUsers = async () => {
-  return await getUsers();
+const getAll = async () => {
+  return await users.getUsers();
 };
 
-// const get = async (userId) => {
-//   return await user.get(userId);
-// };
-// const create = async (newUser) => {
-//   return await user.create(newUser);
-// };
+const getById = async (userId) => {
+  return await users.getUserById(userId);
+};
+
+const getByUsername = async (username) => {
+  return await users.getUserByUsername(username);
+};
+
+const create = async (newUser) => {
+  return await users.create(newUser);
+};
+
 // const update = async (updatedUserInfo) => {
 //   return await user.update(updatedUserInfo);
 // };
@@ -17,10 +23,11 @@ const getAllUsers = async () => {
 //   return await user.remove(userId);
 // };
 
-export {
-  getAllUsers,
-  // get,
-  // create,
+export default{
+  getAll,
+  getById,
+  getByUsername,
+  create,
   // update,
   // remove,
 };

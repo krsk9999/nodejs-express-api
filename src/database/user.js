@@ -9,13 +9,12 @@ const sqlConfig = {
   }
 };
 
-const getUsers = async () => {
+const getAllUsers = async () => {
   try {
-    let pool = sql.connect(sqlConfig);
+    let pool = await sql.connect(sqlConfig);
 
-    let result = await pool
-      .request()
-      .execute("uspGetUsuarios");
+    let result = await pool.request().execute("uspGetUsuarios");
+
     console.dir({ users: result.recordset });
     return { users: result.recordset };
   } catch (err) {
@@ -23,54 +22,62 @@ const getUsers = async () => {
   }
 };
 
-// obtenerTodosPacientes = async () => {
-//   try {
-//     // make sure that any items are correctly URL encoded in the connection string
-//     await sql.connect(sqlConfig);
-//     const result = await sql.query`select * from paciente`;
-//     return { pacientes: result.recordset };
-//   } catch (err) {
-//     console.error(err);
-//   }
-// };
+const getUserById = async (id) => {
+  try {
+    let pool = await sql.connect(sqlConfig);
 
-// const obtenerTodosPacientes = async () => {
-//   try {
-//     let pool = await sql.connect(sqlConfig);
+    // Stored procedure
+    let result = await pool
+      .request()
+      .input("Id", sql.Int, id)
+      .execute("uspGetUsuarioByID");
+    console.dir({ user: result.recordset });
+    const userResult = result.recordset;
+    delete userResult[0].PASSWORD;
+    return { user: userResult };
+  } catch (err) {
+    console.error(err);
+  }
+};
 
-//     sql.valueHandler.set(sql.TYPES.Bit, (value) => value == 0 ? 'No' : 'Si')
+const getUserByUsername = async (username) => {
+  try {
+    let pool = await sql.connect(sqlConfig);
 
-//     // Stored procedure
-//     let result = await pool.request().execute("uspPacienteSelectAll");
+    // Stored procedure
+    let result = await pool
+      .request()
+      .input("Identificacion", sql.NVarChar(20), username)
+      .execute("uspGetUsuarioByUser");
+    console.dir({ paciente: result.recordset });
+    return { paciente: result.recordset };
+  } catch (err) {
+    console.error(err);
+  }
+};
 
-//     console.dir({ pacientes: result.recordset });
-//     return { pacientes: result.recordset };
-//   } catch (err) {
-//     console.error(err);
-//   }
-// };
+const create = async newUser => {
+  try {
+    let pool = await sql.connect(sqlConfig);
 
-// const get = async userId => {
-//   try {
-//     const user = await Usuario.findByPk(userId, {
-//       attributes: { exclude: ['PASSWORD','rol','CREATEDDATE','UsuarioModificacion','FechaModificacion'] },
-//   });
-//     // console.dir({ pacientes: pacientes });
-//     return { user: user };
-//   } catch (err) {
-//     console.error(err);
-//   }
-// };
+    // Stored procedure
+    let result = await pool
+      .request()
+      .input("User", sql.NVarChar(50), newUser.User)
+      .input("Name", sql.NVarChar(50), newUser.Name)
+      .input("Password", sql.NVarChar(4000), newUser.Password)
+      .input("Rol", sql.Int, newUser.Rol)
+      .input("Usuario", sql.NVarChar(50), newUser.Usuario)
+      .execute("uspInsertUsuario");
+      console.dir({ user: result.recordset });
+      const userResult = result.recordset;
+      delete userResult[0].PASSWORD;
 
-// const create = async newUser => {
-//   try {
-//     const user = await Usuario.create(newUser);
-//     // console.dir({ pacientes: pacientes });
-//     return { user: user };
-//   } catch (err) {
-//     console.error(err);
-//   }
-// };
+      return { user: userResult };
+  } catch (err) {
+    console.error(err);
+  }
+};
 
 // const update = async pacienteActualizado => {
 //   return "";
@@ -80,10 +87,11 @@ const getUsers = async () => {
 //   return "";
 // };
 
-export {
-  getUsers,
-  // get,
-  // create,
+export default {
+  getAllUsers,
+  getUserById,
+  getUserByUsername,
+  create,
   // update,
   // remove
 };
