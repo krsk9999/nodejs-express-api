@@ -1,8 +1,7 @@
-const paciente = require('../database/paciente');
+import paciente from '../database/patient';
 
 const obtenerPacientes = async () => {
   return await paciente.obtenerTodosPacientes();
-
 };
 const obtenerPaciente = async (pacienteId) => {
   return await paciente.obtenerPaciente(pacienteId);
@@ -17,7 +16,7 @@ const eliminarPaciente = async (pacienteId) => {
   return await paciente.eliminarPaciente(pacienteId);
 };
 
-module.exports = {
+export {
   obtenerPacientes,
   obtenerPaciente,
   crearPaciente,

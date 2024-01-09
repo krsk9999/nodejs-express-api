@@ -1,15 +1,14 @@
-// const sql = require("mssql");
-// const sqlConfig = {
-//   user: process.env.DB_USERNAME,
-//   password: process.env.DB_PASSWORD,
-//   database: process.env.DB_DATABASE,
-//   server: process.env.DB_SERVER,
-//   options: {
-//     encrypt: false // for azure
-//   }
-// };
+const sql = require("mssql");
+const sqlConfig = {
+  user: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
+  server: process.env.DB_SERVER,
+  options: {
+    encrypt: false // for azure
+  }
+};
 
-const { Paciente } = require('./models/init-models')
 
 // obtenerTodosPacientes = async () => {
 //   try {
@@ -22,31 +21,31 @@ const { Paciente } = require('./models/init-models')
 //   }
 // };
 
-// const obtenerTodosPacientes = async () => {
-//   try {
-//     let pool = await sql.connect(sqlConfig);
-
-//     sql.valueHandler.set(sql.TYPES.Bit, (value) => value == 0 ? 'No' : 'Si')
-
-//     // Stored procedure
-//     let result = await pool.request().execute("uspPacienteSelectAll");
-
-//     console.dir({ pacientes: result.recordset });
-//     return { pacientes: result.recordset };
-//   } catch (err) {
-//     console.error(err);
-//   }
-// };
-
 const obtenerTodosPacientes = async () => {
   try {
-    const pacientes = await Paciente.findAll();
-    // console.dir({ pacientes: pacientes });
-    return { pacientes: pacientes };
+    let pool = await sql.connect(sqlConfig);
+
+    sql.valueHandler.set(sql.TYPES.Bit, (value) => value == 0 ? 'No' : 'Si')
+
+    // Stored procedure
+    let result = await pool.request().execute("uspPacienteSelectAll");
+
+    console.dir({ pacientes: result.recordset });
+    return { pacientes: result.recordset };
   } catch (err) {
     console.error(err);
   }
 };
+
+// const obtenerTodosPacientes = async () => {
+//   try {
+//     const pacientes = await Paciente.findAll();
+//     // console.dir({ pacientes: pacientes });
+//     return { pacientes: pacientes };
+//   } catch (err) {
+//     console.error(err);
+//   }
+// };
 
 // obtenerPaciente = async (pacienteId) => {
 //   try {
@@ -189,7 +188,7 @@ const eliminarPaciente = async (pacienteId) => {
   }
 };
 
-module.exports = {
+export default {
   obtenerTodosPacientes,
   obtenerPaciente,
   crearPaciente,

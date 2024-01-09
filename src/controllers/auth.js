@@ -1,4 +1,4 @@
-const { loginUser, registerNewUser } = require('../services/auth')
+import { loginUser, registerNewUser } from '../services/auth'
 
 const registerCtrl = async (req, res) => {
     const { body: user } = req
@@ -18,7 +18,7 @@ const loginCtrl = async (req, res) => {
     }
 }
 
-module.exports = {
+export {
     registerCtrl,
     loginCtrl
 }

@@ -1,18 +1,17 @@
-const express = require('express');
+import express from 'express';
+import cors from "cors"
 // const apicache = require("apicache");
 const app = express();
-require('dotenv').config();
+import 'dotenv/config'
 const PORT = process.env.PORT || 3000
 // const cache = apicache.middleware;
-const routes =  require("./routes/index")
+import routes from "./routes/index.js"
 
 // const { swaggerDocs: V1SwaggerDocs } = require("./v1/swagger");
 
 app.use(express.json());
+app.use(cors())
 // app.use(cache("2 minutes"));
-app.get('/', (req, res) => {
-    // res.redirect('/api/v1');
-});
 app.use("/", routes)
 
 app.listen(PORT, () => {

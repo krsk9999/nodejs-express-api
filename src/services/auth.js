@@ -1,5 +1,5 @@
-const { encrypt, verify } = require("../utils/bcrypt.handle")
-const { generateToken } = require("../utils/token.handle")
+import { encrypt, verify } from "../utils/bcrypt.handle"
+import { generateToken } from "../utils/token.handle"
 
 const registerNewUser = async (user) => {
     const { USER, NAME, PASSWORD } = user

@@ -1,25 +1,26 @@
-const user = require('../database/user');
+import { getUsers } from '../database/user';
 
-const getAll = async () => {
-  return await user.getAll();
-};
-const get = async (userId) => {
-  return await user.get(userId);
-};
-const create = async (newUser) => {
-  return await user.create(newUser);
-};
-const update = async (updatedUserInfo) => {
-  return await user.update(updatedUserInfo);
-};
-const remove = async (userId) => {
-  return await user.remove(userId);
+const getAllUsers = async () => {
+  return await getUsers();
 };
 
-module.exports = {
-  getAll,
-  get,
-  create,
-  update,
-  remove,
+// const get = async (userId) => {
+//   return await user.get(userId);
+// };
+// const create = async (newUser) => {
+//   return await user.create(newUser);
+// };
+// const update = async (updatedUserInfo) => {
+//   return await user.update(updatedUserInfo);
+// };
+// const remove = async (userId) => {
+//   return await user.remove(userId);
+// };
+
+export {
+  getAllUsers,
+  // get,
+  // create,
+  // update,
+  // remove,
 };
