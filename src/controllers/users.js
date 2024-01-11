@@ -16,7 +16,7 @@ const create = async (req, res) => {
 
     const userExists = await userService.getByUsername(body.Username)
 
-    if (userExists) {
+    if (userExists.user) {
         return res.status(400).send({ message: 'User already exists' })
     } else {
         body.Password = await encrypt(body.Password)
