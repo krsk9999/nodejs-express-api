@@ -16,18 +16,19 @@ const create = async (newUser) => {
   return await users.create(newUser);
 };
 
-// const update = async (updatedUserInfo) => {
-//   return await user.update(updatedUserInfo);
-// };
-// const remove = async (userId) => {
-//   return await user.remove(userId);
-// };
+const update = async (updatedUserInfo) => {
+  return await users.update(updatedUserInfo);
+};
+
+const remove = async (userId) => {
+  return await users.remove(userId);
+};
 
 export default{
   getAll,
   getById,
   getByUsername,
   create,
-  // update,
-  // remove,
+  update,
+  remove
 };

@@ -4,7 +4,7 @@ const getAllUsers = async () => {
   try {
     let pool = await connection();
 
-    let result = await pool.request().execute("uspGetUsuarios");
+    let result = await pool.request().execute("usp_getusers");
     const usersResult = result.recordset
     console.dir({ users: usersResult });
     return { users: usersResult };
@@ -20,11 +20,11 @@ const getUserById = async (id) => {
     // Stored procedure
     let result = await pool
       .request()
-      .input("Id", sql.Int, id)
-      .execute("uspGetUsuarioByID");
+      .input("id", sql.Int, id)
+      .execute("usp_getuserbyid");
     console.dir({ user: result.recordset });
-    const userResult = result.recordset;
-    delete userResult[0].PASSWORD;
+    const userResult = result.recordset[0];
+    delete userResult.password;
     return { user: userResult };
   } catch (err) {
     console.error(err);
@@ -38,10 +38,10 @@ const getUserByUsername = async (user) => {
     // Stored procedure
     let result = await pool
       .request()
-      .input("user", sql.NVarChar(20), user)
-      .execute("uspGetUsuarioByUser");
+      .input("username", sql.NVarChar(20), user)
+      .execute("usp_getuserbyusername");
     console.dir({ user: result.recordset });
-    const userResult = result.recordset[0];
+    const userResult = result.recordset;
     return { user: userResult };
   } catch (err) {
     console.error(err);
@@ -55,15 +55,14 @@ const create = async newUser => {
     // Stored procedure
     let result = await pool
       .request()
-      .input("User", sql.NVarChar(50), newUser.User)
-      .input("Name", sql.NVarChar(50), newUser.Name)
-      .input("Password", sql.NVarChar(4000), newUser.Password)
-      .input("Rol", sql.Int, newUser.Rol)
-      .input("Usuario", sql.NVarChar(50), newUser.Usuario)
-      .execute("uspInsertUsuario");
-    console.dir({ user: result.recordset });
-    const userResult = result.recordset;
-    delete userResult[0].PASSWORD;
+      .input("username", sql.NVarChar(50), newUser.username)
+      .input("name", sql.NVarChar(4000), newUser.name)
+      .input("password", sql.NVarChar(4000), newUser.password)
+      .input("roleid", sql.Int, newUser.roleid)
+      .execute("usp_insertuser");
+    console.dir({ user: result });
+    const userResult = result.recordset[0];
+    delete userResult.password;
 
     return { user: userResult };
   } catch (err) {
@@ -71,19 +70,53 @@ const create = async newUser => {
   }
 };
 
-// const update = async pacienteActualizado => {
-//   return "";
-// };
+const update = async pacienteActualizado => {
+  try {
+    let pool = await connection();
 
-// const remove = async (pacienteId) => {
-//   return "";
-// };
+    // Stored procedure
+    let result = await pool
+      .request()
+      .input("id", sql.Int, pacienteActualizado.id)
+      .input("username", sql.NVarChar(50), pacienteActualizado.username)
+      .input("name", sql.NVarChar(4000), pacienteActualizado.name)
+      .input("password", sql.NVarChar(4000), pacienteActualizado.password)
+      .input("roleid", sql.Int, pacienteActualizado.roleid)
+      .input("status", sql.Bit, pacienteActualizado.status)
+      .execute("usp_updateuser");
+    console.dir({ user: result });
+    const userResult = result.recordset[0];
+    delete userResult.password;
+
+    return { user: userResult };
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+const remove = async (pacienteId) => {
+  try {
+    let pool = await connection();
+
+    // Stored procedure
+    let result = await pool
+      .request()
+      .input("id", sql.Int, pacienteId)
+      .execute("usp_deleteuser");
+    console.dir({ user: result });
+    const userResult = result.recordset[0];
+
+    return { user: userResult };
+  } catch (err) {
+    console.error(err);
+  }
+};
 
 export default {
   getAllUsers,
   getUserById,
   getUserByUsername,
   create,
-  // update,
-  // remove
+  update,
+  remove
 };
